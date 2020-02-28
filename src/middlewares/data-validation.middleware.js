@@ -1,3 +1,5 @@
+const projects = require('../projects')
+
 const validateData = (req, res, next) =>{
     const { id, title } = req.body
 
@@ -8,6 +10,16 @@ const validateData = (req, res, next) =>{
     return next();
 };
 
+const validateUniqueId = (req, res, next) =>{
+    const { id } = req.params
+    const project = projects.find(res=> res.id === id)
+    if(!project){
+        return res.send({message: 'project not found'})
+    }
+    return next()
+} 
+
 module.exports = {
-    validateData
+    validateData,
+    validateUniqueId
 }
